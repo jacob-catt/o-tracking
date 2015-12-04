@@ -1,5 +1,6 @@
 /*global module, require */
-
+const oGrid = require('o-grid');
+const oViewport = require('o-viewport');
 const Send = require('./core/send');
 const User = require('./core/user');
 const Session = require('./core/session');
@@ -22,6 +23,11 @@ const defaultConfig = function () {
 		callback: function () {},
 		system: {},
 		context: {},
+		device: {
+			layout: oGrid.getCurrentLayout(),
+			orientation: oViewport.getOrientation(),
+			dimensions: oViewport.getSize()
+		},
 		user: {
 			passport_id: utils.getValueFromCookie(/USERID=([0-9]+):/) || utils.getValueFromCookie(/PID=([0-9]+)\_/),
 			ft_session: utils.getValueFromCookie(/FTSession=([^;]+)/)
