@@ -23,11 +23,6 @@ const defaultConfig = function () {
 		callback: function () {},
 		system: {},
 		context: {},
-		device: {
-			layout: oGrid.getCurrentLayout(),
-			orientation: oViewport.getOrientation(),
-			dimensions: oViewport.getSize()
-		},
 		user: {
 			passport_id: utils.getValueFromCookie(/USERID=([0-9]+):/) || utils.getValueFromCookie(/PID=([0-9]+)\_/),
 			ft_session: utils.getValueFromCookie(/FTSession=([^;]+)/)
@@ -106,7 +101,10 @@ function track(config, callback) {
 		device: {
 			spoor_session: session.id,
 			spoor_session_is_new: session.isNew,
-			spoor_id: User.userID()
+			spoor_id: User.userID(),
+			layout: oGrid.getCurrentLayout(),
+			orientation: oViewport.getOrientation(),
+			dimensions: oViewport.getSize()
 		}
 	}, request);
 

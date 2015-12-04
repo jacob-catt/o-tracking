@@ -1,7 +1,7 @@
 /*global module, require */
 const Core = require('./core');
 const utils = require('./utils');
-
+const navigationTiming = require('../libs/navigation-timing');
 
 /**
  * Default properties for page tracking requests.
@@ -16,7 +16,6 @@ const defaultPageConfig = function () {
 			url: document.URL,
 			referrer: document.referrer
 		},
-
 		async: true // Send this event asyncronously - as sync doesn't work in FF, as it doesn't send cookies. https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest#withCredentials
 	};
 };
@@ -36,6 +35,7 @@ function page(config, callback) {
 	// New PageID for a new Page.
 	Core.setRootID();
 	Core.track(config, callback);
+	navigationTiming.track();
 
 	// Alert internally that a new page has been tracked - for single page apps for example.
 	utils.triggerPage();
