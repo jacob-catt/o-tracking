@@ -1,7 +1,7 @@
 /*global module, require */
-const Core = require('./core');
-const utils = require('./utils');
-const navigationTiming = require('../libs/navigation-timing');
+const Core = require('../core');
+const utils = require('../utils');
+const navigationTiming = require('./navigation-timing');
 
 /**
  * Default properties for page tracking requests.

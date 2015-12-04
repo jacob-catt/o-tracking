@@ -1,4 +1,4 @@
-const Core = require('./core');
+const Core = require('../core');
 let hasFired = false;
 
 function onLoad (callback) {
@@ -77,8 +77,8 @@ class NavigationTiming {
 				};
 
 				Core.track({
-					category: 'page-load',
-					action: 'timing',
+					category: 'perf',
+					action: 'navigationTiming',
 					timings: {
 						offset: offset,
 						stepped: stepped

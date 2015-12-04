@@ -67,11 +67,11 @@ Tracking.prototype.toString = function() {
 	return 'oTracking version ' + version;
 };
 
-Tracking.prototype.page = require('./src/javascript/page');
+Tracking.prototype.page = require('./src/javascript/events/page');
 
-Tracking.prototype.event = require('./src/javascript/event');
+Tracking.prototype.event = require('./src/javascript/events/custom');
 
-Tracking.prototype.link = require('./src/javascript/link');
+Tracking.prototype.link = require('./src/javascript/events/link');
 
 Tracking.prototype.utils = require('./src/javascript/utils');
 
@@ -141,6 +141,9 @@ Tracking.prototype.init = function(config) {
 
 	// Initialize the sending queue.
 	require('./src/javascript/core/send').init();
+
+	// Initialize attention-time
+	require('./src/javascript/events/attention-time').init();
 
 	this.initialised = true;
 	return this;
