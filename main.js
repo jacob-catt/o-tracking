@@ -1,6 +1,10 @@
 /*global require, module */
 const settings = require('./src/javascript/core/settings');
-
+const user = require('./src/javascript/core/user');
+const session = require('./src/javascript/core/session');
+const send = require('./src/javascript/core/send');
+const attentionTime = require('./src/javascript/events/attention-time');
+const scrollDepth = require('./src/javascript/events/scroll-depth');
 
 /**
  * The version of the tracking module.
@@ -134,16 +138,21 @@ Tracking.prototype.init = function(config) {
 	}
 
 	// User identifier
-	require('./src/javascript/core/user').init(config.user ? config.user.user_id : null);
+	user.init(config.user ? config.user.user_id : null);
 
 	// Session
-	require('./src/javascript/core/session').init(config.session);
+	session.init(config.session);
 
 	// Initialize the sending queue.
-	require('./src/javascript/core/send').init();
+	send.init();
 
-	// Initialize attention-time
-	require('./src/javascript/events/attention-time').init();
+	// Initialize inbuilt user interaction trackers
+	attentionTime.init();
+	new ScrollDepth.init({
+		slices: 4,
+		el: config.rootScrollableEl || window
+	});
+
 
 	this.initialised = true;
 	return this;

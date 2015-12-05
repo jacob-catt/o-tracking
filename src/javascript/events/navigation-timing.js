@@ -79,9 +79,11 @@ class NavigationTiming {
 				Core.track({
 					category: 'perf',
 					action: 'navigationTiming',
-					timings: {
-						offset: offset,
-						stepped: stepped
+					meta: {
+						timings: {
+							offset: offset,
+							stepped: stepped
+						}
 					}
 				});
 			}, 0);
