@@ -195,6 +195,52 @@ function getValueFromJsVariable(str) {
 	return test !== '' ? test : null;
 }
 
+let domPathConfig = {
+	includeOrigami: true,
+	includeAllNodes: false
+};
+
+function getDomPath (el, path, depth, originalEl) {
+	originalEl = originalEl || el;
+	depth = depth || 0;
+
+	if (!el.parentNode) {
+		return path;
+	}
+
+	if (!domPathConfig.includeAllNodes) {
+		const isSiblingContainer = el.hasAttribute('data-o-tracking-is-collection');
+
+		if (isSiblingContainer) {
+			let index;
+			[].some.call(el.childNodes, (child, i) => {
+				if (child.contains(originalEl)) {
+					index = i;
+					return true;
+				}
+			})
+			[path.length - 1] = path[path.length -1] + `[${index} + 1]`
+		}
+	}
+
+	// Transponse the parent node where the target element is a text node
+	if (path.length === 0 && (el.nodeType === Node.TEXT_NODE)) {
+		el = el.parentNode;
+	}
+
+	const trackable = el.getAttribute('data-o-tracking-name') || el.getAttribute('data-o-component');
+
+	if (!trackable && domPathConfig.includeAllNodes) {
+		trackable = el.nodeName + `[${[].indexOf.call(el.aprentNode.childNodes, el) + 1}]`;
+	}
+
+	if (trackable) {
+		path.push(trackable);
+	}
+
+	return getDomPath(el.parentNode, path, depth + 1, originalEl);
+}
+
 module.exports = {
 	log: log,
 	is: is,
@@ -209,4 +255,10 @@ module.exports = {
 	getValueFromCookie: getValueFromCookie,
 	getValueFromUrl: getValueFromUrl,
 	getValueFromJsVariable: getValueFromJsVariable
+	getDomPath: getDomPath,
+	configureDomPath: function (opts) {
+		Object.keys(opts).forEach(k => {
+			domPathCongig[k] = opts[k];
+		})
+	}
 };

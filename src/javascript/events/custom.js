@@ -1,3 +1,21 @@
+	// const trackableOnce = el.hasAttribute('data-trackable-once');
+
+	// // Only track some elements once per page
+	// if (trackableOnce && depth === 0) {
+	// 	el.removeAttribute('data-trackable');
+	// }
+
+
+
+
+
+
+
+
+
+
+
+
 /*global module, require */
 
 const Core = require('../core');
@@ -152,6 +170,10 @@ function _getElementPath(element) {
 
 	return path;
 }
+
+
+
+
 
 /**
  * JS Implementation of MurmurHash2

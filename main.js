@@ -4,6 +4,7 @@ const user = require('./src/javascript/core/user');
 const session = require('./src/javascript/core/session');
 const send = require('./src/javascript/core/send');
 const attentionTime = require('./src/javascript/events/attention-time');
+const elementVisibilty = require('./src/javascript/events/element-visibility');
 const scrollDepth = require('./src/javascript/events/scroll-depth');
 
 /**
@@ -148,10 +149,8 @@ Tracking.prototype.init = function(config) {
 
 	// Initialize inbuilt user interaction trackers
 	attentionTime.init();
-	new ScrollDepth.init({
-		slices: 4,
-		el: config.rootScrollableEl || window
-	});
+	elementVisibility.init();
+	new ScrollDepth.init(config.scroll);
 
 
 	this.initialised = true;
