@@ -77,8 +77,8 @@ class NavigationTiming {
 				};
 
 				Core.track({
-					category: 'perf',
-					action: 'navigationTiming',
+					category: 'page',
+					action: 'load',
 					meta: {
 						timings: {
 							offset: offset,

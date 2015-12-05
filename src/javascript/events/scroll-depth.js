@@ -50,7 +50,7 @@ class ScrollDepth {
 		this.incrementsViewed = increment;
 
 		const data = {
-			action: 'scrolldepth',
+			action: 'scroll',
 			meta {
 				depth: this.incrementsViewed
 			}

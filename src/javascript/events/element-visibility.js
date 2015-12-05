@@ -17,7 +17,7 @@ class ScrollDepth {
 			ev.detail.el.setAttribute('data-o-tracking-visibility--tracked', '');
 			const data = {
 				category: 'component',
-				action: 'visibility',
+				action: 'view',
 				context: {
 					domPath: utils.getDomPath(ev.detail.el)
 				}
