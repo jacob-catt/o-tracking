@@ -1,26 +1,30 @@
 /*global require, describe, it, before, after, sinon, document */
+'use strict';
 
 const assert = require("assert");
+const Queue = require("../../src/javascript/core/queue");
+const settings = require("../../src/javascript/core/settings");
+const send = require("../../src/javascript/core/send");
+const core = require("../../src/javascript/core");
+const link = require("../../src/javascript/events/click.js");
 
 describe('click', function () {
 
 	let server;
-	const link = require("../../src/javascript/events/click.js");
 
 	before(function () {
-		(new (require("../../src/javascript/core/queue"))('requests')).replace([]);  // Empty the queue as PhantomJS doesn't always start fresh.
-		require("../../src/javascript/core/settings").destroy('config');  // Empty settings.
-		require("../../src/javascript/core/send").init(); // Init the sender.
-		require("../../src/javascript/core").setRootID('page_id'); // Fix the click ID to stop it generating one.
-
+		core.setRootID('page_id'); // Fix the click ID to stop it generating one.
+		send.init(); // Init the sender.
 		server = sinon.fakeServer.create(); // Catch AJAX requests
 	});
 
 	after(function () {
+		new Queue('requests').replace([]);  // Empty the queue
+		settings.destroy('config');  // Empty settings.
 		server.restore();
 	});
 
-	it.only('should track an external link', function () {
+	it('should track an external link', function () {
 		server.respondWith([200, { "Content-Type": "plain/text", "Content-Length": 2 }, "OK"]);
 
 		const callback = sinon.spy();

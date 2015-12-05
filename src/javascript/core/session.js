@@ -32,6 +32,9 @@ function setSession(session) {
  * @return {Object} the current session
  */
 function getSession() {
+	if (!store) {
+		return init();
+	}
 	const s = store.read();
 	let session;
 	let isNew = false;

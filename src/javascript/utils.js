@@ -202,9 +202,9 @@ let domPathConfig = {
 
 function getDomPath (el, path, originalEl) {
 	originalEl = originalEl || el;
-
-	if (!el.parentNode) {
-		return [];
+	path = path || [];
+	if (!el) {
+		return path;
 	}
 
 	if (!domPathConfig.includeAllNodes) {
@@ -230,7 +230,7 @@ function getDomPath (el, path, originalEl) {
 	let trackable = el.getAttribute('data-o-tracking-name') || el.getAttribute('data-o-component');
 
 	if (!trackable && domPathConfig.includeAllNodes) {
-		trackable = el.nodeName + `[${[].indexOf.call(el.aprentNode.childNodes, el) + 1}]`;
+		trackable = el.nodeName + `[${[].indexOf.call(el.parentNode.childNodes, el) + 1}]`;
 	}
 
 	if (trackable) {

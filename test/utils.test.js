@@ -2,6 +2,7 @@
 
 const assert = require('assert');
 const Utils = require('../src/javascript/utils');
+const jade = require('jade');
 
 describe('Utils', function () {
 
@@ -21,8 +22,8 @@ describe('Utils', function () {
 			{ value: {}, answer: 'object' },
 			{ value: function () {}, answer: 'function' }
 		].forEach(function (test) {
-				assert.ok(Utils.is(test.value, test.answer), test.value + " is a " + test.answer);
-			});
+			assert.ok(Utils.is(test.value, test.answer), test.value + " is a " + test.answer);
+		});
 	});
 
 	it('should provide isUndefined functionality', function () {
@@ -69,5 +70,38 @@ describe('Utils', function () {
 	it('should provide getValueFromJsVariable functionality', function () {
 		assert.ok(Utils.getValueFromJsVariable);
 	});
+
+	describe.only('getDomPath', function () {
+		function initiateClick (string, selector) {
+			string = '#test>' + string;
+			let out = '';
+			let indent = 0;
+			string.split('').forEach(char => {
+				if (char === '|') {
+					out += `\n${Array(indent + 1).join(' ')}`
+				} else if (char === '>') {
+					indent++
+					out += `\n${Array(indent + 1).join(' ')}`
+				} else if (char === ':') {
+					indent--
+					out += `\n${Array(indent + 1).join(' ')}`
+				} else {
+					out += char;
+				}
+			});
+			document.body.insertAdjacentHTML('beforeend', jade.render(out))
+
+			const event = document.createEvent('HTMLEvents');
+
+			event.initEvent('click', true, true);
+			document.querySelector('#test ' + selector).dispatchEvent(event, true);
+		}
+
+		it('possible to configure to get entire dom tree', function () {
+			initiateClick('div(data-o-trackable-name="apples")|p.para>a:p>a#link', '#link');
+
+
+		})
+	})
 
 });

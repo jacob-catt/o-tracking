@@ -4,8 +4,8 @@ const user = require('./src/javascript/core/user');
 const session = require('./src/javascript/core/session');
 const send = require('./src/javascript/core/send');
 const pageAttention = require('./src/javascript/events/page-attention');
-const componentVisibilty = require('./src/javascript/events/component-visibility');
-const scrollDepth = require('./src/javascript/events/scroll-depth');
+const componentVisibility = require('./src/javascript/events/component-visibility');
+const ScrollDepth = require('./src/javascript/events/scroll-depth');
 
 /**
  * The version of the tracking module.
@@ -148,9 +148,9 @@ Tracking.prototype.init = function(config) {
 	send.init();
 
 	// Initialize inbuilt user interaction trackers
-	attentionTime.init();
-	elementVisibility.init();
-	new ScrollDepth.init(config.scroll);
+	pageAttention.init();
+	componentVisibility.init();
+	new ScrollDepth(config.scroll).init();
 
 
 	this.initialised = true;

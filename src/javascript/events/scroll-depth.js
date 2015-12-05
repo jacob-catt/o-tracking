@@ -73,7 +73,7 @@ class ScrollDepth {
 	getScrollDepth () {
 		const viewport = oViewport.getSize();
 		if (this.el === window) {
-			const scrollData = viewport.getScrollPosition()
+			const scrollData = oViewport.getScrollPosition()
 			return (viewport.height + scrollData.top ) / scrollData.height;
 		} else {
 			const scrollData = this.el.getBoundingClientRect();

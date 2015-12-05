@@ -27,4 +27,4 @@ class Visibility {
 	}
 }
 
-module.exports = Visibility;
+module.exports = new Visibility();

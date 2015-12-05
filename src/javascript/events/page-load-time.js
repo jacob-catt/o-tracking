@@ -4,7 +4,7 @@ let hasFired = false;
 class NavigationTiming {
 	onLoad (callback) {
 		function safeCallback () {
-			if (!hasfired) {
+			if (!hasFired) {
 				hasFired = true;
 				callback();
 			}
