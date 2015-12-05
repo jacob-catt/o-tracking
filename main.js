@@ -3,8 +3,8 @@ const settings = require('./src/javascript/core/settings');
 const user = require('./src/javascript/core/user');
 const session = require('./src/javascript/core/session');
 const send = require('./src/javascript/core/send');
-const attentionTime = require('./src/javascript/events/attention-time');
-const elementVisibilty = require('./src/javascript/events/element-visibility');
+const pageAttention = require('./src/javascript/events/page-attention');
+const componentVisibilty = require('./src/javascript/events/component-visibility');
 const scrollDepth = require('./src/javascript/events/scroll-depth');
 
 /**
@@ -72,11 +72,11 @@ Tracking.prototype.toString = function() {
 	return 'oTracking version ' + version;
 };
 
-Tracking.prototype.page = require('./src/javascript/events/page');
+Tracking.prototype.page = require('./src/javascript/events/page-view');
 
 Tracking.prototype.event = require('./src/javascript/events/custom');
 
-Tracking.prototype.link = require('./src/javascript/events/link');
+Tracking.prototype.link = require('./src/javascript/events/click');
 
 Tracking.prototype.utils = require('./src/javascript/utils');
 

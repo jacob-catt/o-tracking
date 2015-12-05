@@ -12,6 +12,7 @@
   "description": "Origami module for FT tracking.",
   "dependencies": {
     "o-grid": "~4.0.4",
-    "o-viewport": "~2.0.0"
+    "o-viewport": "~2.0.0",
+    "o-element-visibility": "~2.0.1"
   }
 }

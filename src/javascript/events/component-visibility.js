@@ -1,7 +1,7 @@
 const Core = require('../core');
 const oElementVisibility = require('o-element-visibility');
 
-class ScrollDepth {
+class Visibility {
 
 	init () {
 		// track element visibility
@@ -27,4 +27,4 @@ class ScrollDepth {
 	}
 }
 
-module.exports = ScrollDepth;
+module.exports = Visibility;

@@ -26,7 +26,7 @@ class ScrollDepth {
 				new ScrollDepth({
 					el: el,
 					slices: el.getAttribute('data-o-tracking-scrollable--slices')
-				}
+				});
 			});
 		} else {
 			// track scrolling efficiently for non window
@@ -35,8 +35,6 @@ class ScrollDepth {
 			}, 100))
 		}
 	}
-
-
 
 	trackScroll (isInitial) {
 
@@ -51,7 +49,7 @@ class ScrollDepth {
 
 		const data = {
 			action: 'scroll',
-			meta {
+			meta: {
 				depth: this.incrementsViewed
 			}
 		}

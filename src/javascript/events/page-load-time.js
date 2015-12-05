@@ -1,30 +1,30 @@
 const Core = require('../core');
 let hasFired = false;
 
-function onLoad (callback) {
-	function safeCallback () {
-		if (!hasfired) {
-			hasFired = true;
-			callback();
+class NavigationTiming {
+	onLoad (callback) {
+		function safeCallback () {
+			if (!hasfired) {
+				hasFired = true;
+				callback();
+			}
+		}
+		if (document.readyState === 'complete') {
+			safeCallback();
+		} else {
+			window.addEventListener('load', safeCallback);
+
+			document.onreadystatechange = function () {
+				if (document.readyState === 'complete') {
+					safeCallback();
+				}
+			};
 		}
 	}
-	if (document.readyState === 'complete') {
-		safeCallback();
-	} else {
-		window.addEventListener('load', safeCallback);
 
-		document.onreadystatechange = function () {
-			if (document.readyState === 'complete') {
-				safeCallback();
-			}
-		};
-	}
-}
-
-class NavigationTiming {
 	track () {
 
-		onLoad(() => {
+		this.onLoad(() => {
 
 			if (!window.performance || !('timing' in window.performance)) {
 				return false;
@@ -78,7 +78,7 @@ class NavigationTiming {
 
 				Core.track({
 					category: 'page',
-					action: 'load',
+					action: 'load-time',
 					meta: {
 						timings: {
 							offset: offset,

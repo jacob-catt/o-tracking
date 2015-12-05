@@ -2,16 +2,16 @@
 
 const assert = require("assert");
 
-describe('link', function () {
+describe('click', function () {
 
 	let server;
-	const link = require("../src/javascript/link.js");
+	const link = require("../../src/javascript/events/click.js");
 
 	before(function () {
-		(new (require("../src/javascript/core/queue"))('requests')).replace([]);  // Empty the queue as PhantomJS doesn't always start fresh.
-		require("../src/javascript/core/settings").destroy('config');  // Empty settings.
-		require("../src/javascript/core/send").init(); // Init the sender.
-		require("../src/javascript/core").setRootID('page_id'); // Fix the click ID to stop it generating one.
+		(new (require("../../src/javascript/core/queue"))('requests')).replace([]);  // Empty the queue as PhantomJS doesn't always start fresh.
+		require("../../src/javascript/core/settings").destroy('config');  // Empty settings.
+		require("../../src/javascript/core/send").init(); // Init the sender.
+		require("../../src/javascript/core").setRootID('page_id'); // Fix the click ID to stop it generating one.
 
 		server = sinon.fakeServer.create(); // Catch AJAX requests
 	});
@@ -20,7 +20,7 @@ describe('link', function () {
 		server.restore();
 	});
 
-	it('should track an external link', function () {
+	it.only('should track an external link', function () {
 		server.respondWith([200, { "Content-Type": "plain/text", "Content-Length": 2 }, "OK"]);
 
 		const callback = sinon.spy();

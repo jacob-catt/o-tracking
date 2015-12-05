@@ -1,7 +1,7 @@
 /*global module, require */
 const Core = require('../core');
 const utils = require('../utils');
-const navigationTiming = require('./navigation-timing');
+const pageLoadTime = require('./page-load-time');
 
 /**
  * Default properties for page tracking requests.
@@ -35,7 +35,7 @@ function page(config, callback) {
 	// New PageID for a new Page.
 	Core.setRootID();
 	Core.track(config, callback);
-	navigationTiming.track();
+	pageLoadTime.track();
 
 	// Alert internally that a new page has been tracked - for single page apps for example.
 	utils.triggerPage();

@@ -38,8 +38,8 @@ class Attention {
 			this.endAttention();
 			Core.track({
 				category: 'page',
-				action: 'interact',
-				meta {
+				action: 'attention',
+				meta: {
 					attention: this.totalAttentionTime
 				}
 			});

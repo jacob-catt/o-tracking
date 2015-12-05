@@ -5,13 +5,13 @@ const assert = require("assert");
 describe('event', function () {
 
 	let server;
-	const track_event = require("../src/javascript/event.js");
+	const track_event = require("../../src/javascript/events/custom.js");
 
 	before(function () {
-		(new (require("../src/javascript/core/queue"))('requests')).replace([]);  // Empty the queue as PhantomJS doesn't always start fresh.
-		require("../src/javascript/core/settings").destroy('config');  // Empty settings.
-		require("../src/javascript/core/send").init(); // Init the sender.
-		//require("../src/javascript/core").setRootID('rootID'); // Fix the click ID to stop it generating one.
+		(new (require("../../src/javascript/core/queue"))('requests')).replace([]);  // Empty the queue as PhantomJS doesn't always start fresh.
+		require("../../src/javascript/core/settings").destroy('config');  // Empty settings.
+		require("../../src/javascript/core/send").init(); // Init the sender.
+		//require("../../src/javascript/core").setRootID('rootID'); // Fix the click ID to stop it generating one.
 
 		server = sinon.fakeServer.create(); // Catch AJAX requests
 	});

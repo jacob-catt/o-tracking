@@ -200,12 +200,11 @@ let domPathConfig = {
 	includeAllNodes: false
 };
 
-function getDomPath (el, path, depth, originalEl) {
+function getDomPath (el, path, originalEl) {
 	originalEl = originalEl || el;
-	depth = depth || 0;
 
 	if (!el.parentNode) {
-		return path;
+		return [];
 	}
 
 	if (!domPathConfig.includeAllNodes) {
@@ -228,7 +227,7 @@ function getDomPath (el, path, depth, originalEl) {
 		el = el.parentNode;
 	}
 
-	const trackable = el.getAttribute('data-o-tracking-name') || el.getAttribute('data-o-component');
+	let trackable = el.getAttribute('data-o-tracking-name') || el.getAttribute('data-o-component');
 
 	if (!trackable && domPathConfig.includeAllNodes) {
 		trackable = el.nodeName + `[${[].indexOf.call(el.aprentNode.childNodes, el) + 1}]`;
@@ -238,7 +237,7 @@ function getDomPath (el, path, depth, originalEl) {
 		path.push(trackable);
 	}
 
-	return getDomPath(el.parentNode, path, depth + 1, originalEl);
+	return getDomPath(el.parentNode, path, originalEl);
 }
 
 module.exports = {
@@ -254,11 +253,11 @@ module.exports = {
 	triggerPage: triggerPage,
 	getValueFromCookie: getValueFromCookie,
 	getValueFromUrl: getValueFromUrl,
-	getValueFromJsVariable: getValueFromJsVariable
+	getValueFromJsVariable: getValueFromJsVariable,
 	getDomPath: getDomPath,
 	configureDomPath: function (opts) {
 		Object.keys(opts).forEach(k => {
-			domPathCongig[k] = opts[k];
+			domPathConfig[k] = opts[k];
 		})
 	}
 };

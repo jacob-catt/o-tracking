@@ -79,28 +79,6 @@ function isFile(url) {
 }
 
 /**
- * Calculates the parents of a HTML element.
- *
- * @param {Element} element - The starting element.
- *
- * @return {array} The tree of parent elements.
- * @private
- */
-function parentTree(element) {
-	if (!element) {
-		return [];
-	}
-
-	const tree = [element];
-
-	if (element.nodeName === 'BODY') {
-		return tree;
-	}
-
-	return tree.concat(parentTree(element.parentElement));
-}
-
-/**
  * Create the identifier of the link. TODO: https://rally1.rallydev.com/#/16966478977d/detail/defect/17919485944
  *
  * @param {Element} link - The link element.
@@ -109,7 +87,10 @@ function parentTree(element) {
  * @private
  */
 function createLinkID(link) {
-	const parents = parentTree(link);
+
+	if (link.getAttribute('data-o-tracking-name')) {
+		return utils.getDomPath(link).join('/');
+	}
 	let name = link.href || link.text || link.name || link.id;
 
 	name = name.replace(/^http:\/\/[\w\.]+/, '') // Remove http://[something].
@@ -134,7 +115,7 @@ function createLinkID(link) {
 	// Remove slashes as final outcome is slash delimited
 	name = (name.length > 1 ? name.slice(0, 2).join('-') : name[0]).toLowerCase();
 
-	return parents.map(function (p) { return p.tagName.toLowerCase(); }).filter(function (e, i, arr) { return arr.lastIndexOf(e) === i; }).reverse().join('/') + '/' + name;
+	return utils.getDomPath(link).join('/') + '/' + name
 }
 
 /**

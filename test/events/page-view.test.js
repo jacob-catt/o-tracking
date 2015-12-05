@@ -5,12 +5,12 @@ const assert = require("assert");
 describe('page', function () {
 
 	let server;
-	const page = require("../src/javascript/page.js");
+	const page = require("../../src/javascript/events/page-view.js");
 
 	before(function () {
-		(new (require("../src/javascript/core/queue"))('requests')).replace([]);  // Empty the queue as PhantomJS doesn't always start fresh.
-		require("../src/javascript/core/settings").destroy('config');  // Empty settings.
-		require("../src/javascript/core/send").init(); // Init the sender.
+		(new (require("../../src/javascript/core/queue"))('requests')).replace([]);  // Empty the queue as PhantomJS doesn't always start fresh.
+		require("../../src/javascript/core/settings").destroy('config');  // Empty settings.
+		require("../../src/javascript/core/send").init(); // Init the sender.
 
 		server = sinon.fakeServer.create(); // Catch AJAX requests
 	});
