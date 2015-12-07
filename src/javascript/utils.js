@@ -200,10 +200,42 @@ let domPathConfig = {
 	includeAllNodes: false
 };
 
+function getCtaName(el) {
+	if (link.getAttribute('data-o-tracking-name')) {
+		return utils.getDomPath(link).join('/');
+	}
+	let name = link.href || link.text || link.name || link.id;
+
+	name = name.replace(/^http:\/\/[\w\.]+/, '') // Remove http://[something].
+		.replace(/^\//, '') // Remove slash at beginning
+		.replace(/(\?|#).*$/, '') // Remove query string and page anchor (#)
+		.replace(/\/$/, '') // Remove trailing slash
+		.replace(/\.[a-z]{3,4}$/, ''); // Remove final '.com' or similar
+
+	// If it's an external URL
+	if (name === '') {
+		name = link.href.replace(/^http:\/\//, '').split('?')[0].replace(/\/$/, '');
+	}
+
+	// Last 2 items of URL
+	name = name.split('/').slice(-2).filter(function (obj) { return (obj); });
+
+	// If uuid then take final value only
+	if (name.slice(-1)[0].match(/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}/)) {
+		name = name.slice(-1);
+	}
+
+	// Remove slashes as final outcome is slash delimited
+	name = (name.length > 1 ? name.slice(0, 2).join('-') : name[0]).toLowerCase();
+
+	return utils.getDomPath(link).join('/') + '/' + name
+}
+
 function getDomPath (el, path, originalEl) {
+
 	originalEl = originalEl || el;
 	path = path || [];
-	if (!el) {
+	if (!el || el === document || el === document.documentElement || el === document.body) {
 		return path;
 	}
 
@@ -226,15 +258,21 @@ function getDomPath (el, path, originalEl) {
 	if (path.length === 0 && (el.nodeType === Node.TEXT_NODE)) {
 		el = el.parentNode;
 	}
+	let trackable;
+	if (el === originalEl) {
+		trackable = getCtaName(el);
+	} else {
+		trackable = el.getAttribute('data-o-tracking-name') || el.getAttribute('data-o-component');
 
-	let trackable = el.getAttribute('data-o-tracking-name') || el.getAttribute('data-o-component');
-
-	if (!trackable && domPathConfig.includeAllNodes) {
-		trackable = el.nodeName + `[${[].indexOf.call(el.parentNode.childNodes, el) + 1}]`;
+		if (!trackable && domPathConfig.includeAllNodes) {
+			trackable = el.nodeName.toLowerCase();
+			// console.log([].map.call(el.parentNode.childNodes, el => el.nodeName))
+			trackable += `[${[].filter.call(el.parentNode.childNodes, childEl => el.nodeName === childEl.nodeName).indexOf(el) + 1}]`
+		}
 	}
 
 	if (trackable) {
-		path.push(trackable);
+		path.unshift(trackable);
 	}
 
 	return getDomPath(el.parentNode, path, originalEl);
@@ -255,7 +293,7 @@ module.exports = {
 	getValueFromUrl: getValueFromUrl,
 	getValueFromJsVariable: getValueFromJsVariable,
 	getDomPath: getDomPath,
-	configureDomPath: function (opts) {
+	setDomPathConfig: function (opts) {
 		Object.keys(opts).forEach(k => {
 			domPathConfig[k] = opts[k];
 		})

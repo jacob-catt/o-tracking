@@ -72,8 +72,8 @@ describe('Utils', function () {
 	});
 
 	describe.only('getDomPath', function () {
-		function initiateClick (string, selector) {
-			string = '#test>' + string;
+		function getDomPath (string, selector) {
+			string = '#test-dom>' + string;
 			let out = '';
 			let indent = 0;
 			string.split('').forEach(char => {
@@ -90,17 +90,15 @@ describe('Utils', function () {
 				}
 			});
 			document.body.insertAdjacentHTML('beforeend', jade.render(out))
-
-			const event = document.createEvent('HTMLEvents');
-
-			event.initEvent('click', true, true);
-			document.querySelector('#test ' + selector).dispatchEvent(event, true);
+			console.log(document.querySelector('#test-dom ' + selector))
+			return Utils.getDomPath(document.querySelector('#test-dom ' + selector)).join('|');
 		}
 
 		it('possible to configure to get entire dom tree', function () {
-			initiateClick('div(data-o-trackable-name="apples")|p.para>a:p>a#link', '#link');
-
-
+			Utils.setDomPathConfig({
+				includeAllNodes: true
+			})
+			assert.equal(getDomPath('div|p>a:p>a#link', '#link'), 'div[1]|p[2]|a[1]:link');
 		})
 	})
 
