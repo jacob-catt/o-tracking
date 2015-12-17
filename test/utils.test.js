@@ -2,6 +2,7 @@
 
 const assert = require('assert');
 const Utils = require('../src/javascript/utils');
+const jade = require('jade');
 
 describe('Utils', function () {
 
@@ -21,8 +22,8 @@ describe('Utils', function () {
 			{ value: {}, answer: 'object' },
 			{ value: function () {}, answer: 'function' }
 		].forEach(function (test) {
-				assert.ok(Utils.is(test.value, test.answer), test.value + " is a " + test.answer);
-			});
+			assert.ok(Utils.is(test.value, test.answer), test.value + " is a " + test.answer);
+		});
 	});
 
 	it('should provide isUndefined functionality', function () {
@@ -69,5 +70,43 @@ describe('Utils', function () {
 	it('should provide getValueFromJsVariable functionality', function () {
 		assert.ok(Utils.getValueFromJsVariable);
 	});
+
+	describe.only('getDomPath', function () {
+		function getDomPath (string, selector) {
+			string = '#test-dom>' + string;
+			let out = '';
+			let indent = 0;
+			string.split('').forEach(char => {
+				if (char === '|') {
+					out += `\n${Array(indent + 1).join(' ')}`
+				} else if (char === '>') {
+					indent++
+					out += `\n${Array(indent + 1).join(' ')}`
+				} else if (char === ':') {
+					indent--
+					out += `\n${Array(indent + 1).join(' ')}`
+				} else {
+					out += char;
+				}
+			});
+			document.body.insertAdjacentHTML('beforeend', jade.render(out))
+			console.log(document.querySelector('#test-dom ' + selector))
+			return Utils.getDomPath(document.querySelector('#test-dom ' + selector)).join('|');
+		}
+
+		it('possible to configure to get entire dom tree including ids', function () {
+			Utils.setDomPathConfig({
+				includeAllNodes: true
+			})
+			assert.equal(getDomPath('div|p>a:p#para>a#link', '#link'), 'div[1]|p[2]#para|a[1]#link');
+		})
+
+		it('possible to configure to get only o-trackable and origami nodes', function () {
+			Utils.setDomPathConfig({
+				includeAllNodes: false
+			})
+			assert.equal(getDomPath('div|p>a:p#para>a#link', '#link'), 'div[1]|p[2]#para|a[1]#link');
+		})
+	})
 
 });
