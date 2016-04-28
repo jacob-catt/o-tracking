@@ -114,6 +114,12 @@ Asset type is meant to describe the main purpose of the page, for example "story
 - `section` - A section or listing page
 - `topic` -  A topic landing page
 - `video` - A video
+- `funnel` - A checkout Page
+- `stream` - A stream page
+- `login` - A login, sign in or password reset page
+- `epaper` - A page on a epaper property
+- `markets` - A page containing Market data - about a company, stock, bond etc. Usually has '/tearsheet/' in the URL
+- `rankings` - A rankings page for schools and courses (i.e. on rankings.ft.com). Not the section's hub page
 - `page` - anything else, not above.
 
 If using o-tracking, it's usually sent with each page. e.g.
